@@ -26,6 +26,7 @@ class ServiceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     protected static ?string $navigationGroup = 'Infrastructure';
+    protected static ?string $tenantRelationshipName = null;
 
     protected static ?int $navigationSort = 3;
 
@@ -185,13 +186,13 @@ class ServiceResource extends Resource
                     ->visible(fn ($record) => $record?->status === Service::STATUS_FAILED),
             ])
             ->defaultSort('type')
-            ->groups([
-                Tables\Grouping\Group::make('category')
-                    ->label('Category')
-                    ->getTitleFromRecordUsing(fn (Service $record) => $record->category)
-                    ->collapsible(),
-            ])
-            ->defaultGroup('category')
+            // ->groups([
+            //     Tables\Grouping\Group::make('category')
+            //         ->label('Category')
+            //         ->getTitleFromRecordUsing(fn (Service $record) => $record->category)
+            //         ->collapsible(),
+            // ])
+            // ->defaultGroup('category')
             ->filters([
                 Tables\Filters\SelectFilter::make('server_id')
                     ->relationship('server', 'name')
@@ -391,5 +392,9 @@ class ServiceResource extends Resource
         return Service::query()
             ->whereHas('server', fn (Builder $query) =>
                 $query->where('team_id', Filament::getTenant()?->id));
+    }
+    public static function isScopedToTenant(): bool
+    {
+        return false;
     }
 }

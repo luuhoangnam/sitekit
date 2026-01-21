@@ -666,6 +666,11 @@ class ViewWebApp extends ViewRecord
                                 WebApp::SSL_FAILED => 'danger',
                                 default => 'gray',
                             }),
+                        TextEntry::make('is_static_site')
+                            ->label('Is Static Site')
+                            ->badge()
+                            ->formatStateUsing(fn (bool $state) => $state ? 'Yes' : 'No')
+                            ->color(fn (bool $state) => $state ? 'success' : 'gray'),
                         TextEntry::make('ssl_expires_at')
                             ->label('SSL Expires')
                             ->dateTime()

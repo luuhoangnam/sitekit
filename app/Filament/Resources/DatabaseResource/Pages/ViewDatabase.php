@@ -149,7 +149,8 @@ class ViewDatabase extends ViewRecord
                             'include_structure' => $data['include_structure'],
                             'include_data' => $data['include_data'],
                             'compress' => $data['compress'],
-                        ], priority: 3);
+                            'priority' => 3
+                        ]);
 
                         Notification::make()
                             ->title('Export started')
@@ -182,7 +183,8 @@ class ViewDatabase extends ViewRecord
                             'type' => $record->type,
                             'file_path' => $data['sql_file'],
                             'drop_existing' => $data['drop_existing'],
-                        ], priority: 2);
+                            'priority' => 2
+                        ]);
 
                         Notification::make()
                             ->title('Import started')
@@ -199,7 +201,8 @@ class ViewDatabase extends ViewRecord
                         $record->dispatchJob('optimize_database', [
                             'db_name' => $record->name,
                             'type' => $record->type,
-                        ], priority: 5);
+                            'priority' => 5
+                        ]);
 
                         Notification::make()
                             ->title('Optimization started')

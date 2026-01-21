@@ -24,7 +24,7 @@ return new class extends Migration
             if (Schema::hasTable($table)) {
                 Schema::table($table, function (Blueprint $table) {
                     if (!Schema::hasColumn($table->getTable(), 'last_error')) {
-                        $table->string('last_error')->nullable()->after('status');
+                        $table->string('last_error')->nullable();
                     }
                     if (!Schema::hasColumn($table->getTable(), 'last_error_at')) {
                         $table->timestamp('last_error_at')->nullable()->after('last_error');
@@ -40,7 +40,7 @@ return new class extends Migration
         if (Schema::hasTable('servers')) {
             Schema::table('servers', function (Blueprint $table) {
                 if (!Schema::hasColumn('servers', 'database_health')) {
-                    $table->json('database_health')->nullable()->after('stats');
+                    $table->json('database_health')->nullable()->after('status');
                 }
             });
         }

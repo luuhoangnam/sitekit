@@ -35,7 +35,7 @@ return new class extends Migration
             $table->json('configuration')->nullable(); // version, options, etc.
 
             // Execution tracking
-            $table->foreignId('agent_job_id')->nullable()->constrained('agent_jobs')->nullOnDelete();
+            #$table->foreignId('agent_job_id')->nullable()->constrained('agent_jobs')->nullOnDelete();
             $table->text('output')->nullable();
             $table->text('error_message')->nullable();
             $table->integer('exit_code')->nullable();

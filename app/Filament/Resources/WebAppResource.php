@@ -9,6 +9,7 @@ use App\Models\WebApp;
 use App\Services\ConfigGenerator\NodeNginxConfigGenerator;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists;
@@ -55,6 +56,7 @@ class WebAppResource extends Resource
                     ->description('Configure your web application\'s domain and server. Make sure your DNS points to the server before issuing SSL.')
                     ->icon('heroicon-o-globe-alt')
                     ->schema([
+                        
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255)
@@ -88,6 +90,10 @@ class WebAppResource extends Resource
                             ->required()
                             ->live()
                             ->helperText('Choose the runtime for your application'),
+                        Toggle::make('is_static_site')
+                            ->label('Is Static Site')
+                            ->default(false)
+                            ->helperText('Enable if this web app is a static site'),
                     ])
                     ->columns(2),
 
@@ -209,10 +215,6 @@ class WebAppResource extends Resource
                             ->label('Health Check Path')
                             ->placeholder('/api/health')
                             ->helperText('Endpoint for health monitoring'),
-                        Forms\Components\Toggle::make('cache_node_modules')
-                            ->label('Cache node_modules')
-                            ->default(true)
-                            ->helperText('Share node_modules across deployments for faster builds'),
                     ])
                     ->columns(3),
 
@@ -541,7 +543,10 @@ class WebAppResource extends Resource
                 Tables\Columns\TextColumn::make('php_version')
                     ->label('PHP')
                     ->badge()
-                    ->visible(fn ($record) => $record?->app_type === WebApp::APP_TYPE_PHP)
+                    ->visible(function()
+                    {
+                        return WebApp::where('app_type', WebApp::APP_TYPE_PHP);
+                    })
                     ->color(fn ($state) => match ($state) {
                         '7.4', '8.0' => 'danger',  // EOL
                         '8.1' => 'warning',        // Security only
@@ -558,7 +563,9 @@ class WebAppResource extends Resource
                     ->badge()
                     ->color('success')
                     ->prefix('v')
-                    ->visible(fn ($record) => $record?->app_type === WebApp::APP_TYPE_NODEJS),
+                    ->visible(function() {
+                        return WebApp::where('app_type', WebApp::APP_TYPE_NODEJS);
+                    }),
                 Tables\Columns\BadgeColumn::make('ssl_status')
                     ->label('SSL')
                     ->colors([
