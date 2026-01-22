@@ -90,10 +90,6 @@ class WebAppResource extends Resource
                             ->required()
                             ->live()
                             ->helperText('Choose the runtime for your application'),
-                        Toggle::make('is_static_site')
-                            ->label('Is Static Site')
-                            ->default(false)
-                            ->helperText('Enable if this web app is a static site'),
                     ])
                     ->columns(2),
 

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('web_apps', function (Blueprint $table) {
-            if(!Schema::hasColumn('web_apps', 'is_static_site'))
+            if(Schema::hasColumn('web_apps', 'is_static_site'))
             {
-                $table->boolean('is_static_site')->default(0)->nullable()->comment('0 non static 1 for static');
+                $table->dropColumn('is_static_site');
             }
         });
     }
@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('web_apps', function (Blueprint $table) {
+       Schema::table('web_apps', function (Blueprint $table) {
             if(Schema::hasColumn('web_apps', 'is_static_site'))
             {
                 $table->dropColumn('is_static_site');
