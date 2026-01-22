@@ -87,6 +87,7 @@ class WebApp extends Model
         'last_error',
         'last_error_at',
         'suggested_action',
+        'is_static_site',
     ];
 
     protected function casts(): array
