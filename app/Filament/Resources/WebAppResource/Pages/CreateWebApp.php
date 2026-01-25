@@ -4,6 +4,7 @@ namespace App\Filament\Resources\WebAppResource\Pages;
 
 use App\Filament\Concerns\RequiresActiveServer;
 use App\Filament\Resources\WebAppResource;
+use App\Models\Server;
 use App\Models\WebApp;
 use App\Services\ConfigGenerator\ApacheConfigGenerator;
 use App\Services\ConfigGenerator\NginxConfigGenerator;
@@ -252,5 +253,12 @@ NGINX;
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('view', ['record' => $this->record]);
+    }
+    protected function getActiveServer(): ?Server
+    {
+        return Server::query()
+            ->where('team_id', Filament::getTenant()?->id)
+            ->where('status', 'active')
+            ->first();
     }
 }

@@ -158,8 +158,35 @@ class Team extends JetstreamTeam
         return $this->hasMany(SshKey::class);
     }
 
+    // public function services():HasManyThrough
+    // {
+    //     return $this->hasManyThrough(Service::class, Server::class);
+    // }
     public function services(): HasManyThrough
     {
-        return $this->hasManyThrough(Service::class, Server::class);
+        return $this->hasManyThrough(
+            Service::class,
+            Server::class,
+            'team_id',   // Foreign key on servers table
+            'server_id', // Foreign key on services table
+            'id',        // Local key on teams table
+            'id'         // Local key on servers table
+        );
+    }
+    public function cronJobs(): HasMany
+    {
+        return $this->hasMany(CronJob::class);
+    }
+    public function supervisorPrograms(): HasMany
+    {
+        return $this->hasMany(SupervisorProgram::class);
+    }
+    public function firewallRules(): HasMany
+    {
+        return $this->hasMany(FirewallRule::class);
+    }
+    public function healthMonitors(): HasMany
+    {
+        return $this->hasMany(HealthMonitor::class);
     }
 }

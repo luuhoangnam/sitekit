@@ -27,7 +27,7 @@ class OnboardingWidget extends Widget
         }
 
         $hasServer = Server::where('team_id', $teamId)->where('status', 'active')->exists();
-        $hasSourceProvider = SourceProvider::where('user_id', auth()->id())->exists();
+        $hasSourceProvider = SourceProvider::where('provider_user_id', auth()?->id())->exists();
         $hasWebApp = WebApp::whereHas('server', fn ($q) => $q->where('team_id', $teamId))
             ->where('status', 'active')
             ->exists();

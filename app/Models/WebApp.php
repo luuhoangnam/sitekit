@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Models\Concerns\HasErrorTracking;
 use App\Models\Concerns\LogsActivity;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class WebApp extends Model
@@ -86,7 +88,7 @@ class WebApp extends Model
         'error_message',
         'last_error',
         'last_error_at',
-        'suggested_action',
+        'suggested_action'
     ];
 
     protected function casts(): array

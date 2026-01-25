@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('title')->nullable(); // Auto-generated from first message
             $table->string('context_type')->nullable(); // server, webapp, database, etc.
             $table->uuid('context_id')->nullable(); // ID of the related resource
-            $table->json('messages')->default('[]'); // Array of {role, content, timestamp}
+            $table->json('messages')->nullable();  // Array of {role, content, timestamp}
             $table->string('provider')->nullable(); // Which AI provider was used
             $table->string('model')->nullable(); // Which model was used
             $table->integer('total_tokens')->default(0);
